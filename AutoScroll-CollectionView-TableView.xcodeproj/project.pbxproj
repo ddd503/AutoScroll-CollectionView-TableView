@@ -8,20 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		45D123CF227B222500A6E16C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D123CE227B222500A6E16C /* AppDelegate.swift */; };
-		45D123D1227B222500A6E16C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D123D0227B222500A6E16C /* ViewController.swift */; };
 		45D123D4227B222500A6E16C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45D123D2227B222500A6E16C /* Main.storyboard */; };
 		45D123D6227B222600A6E16C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45D123D5227B222600A6E16C /* Assets.xcassets */; };
 		45D123D9227B222600A6E16C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45D123D7227B222600A6E16C /* LaunchScreen.storyboard */; };
+		45D123E3227B2A5B00A6E16C /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D123E2227B2A5B00A6E16C /* CollectionViewController.swift */; };
+		45D123E5227B2ACC00A6E16C /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D123E4227B2ACC00A6E16C /* TableViewController.swift */; };
+		45D123EA227B2DDB00A6E16C /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D123E9227B2DDB00A6E16C /* CollectionViewCell.swift */; };
+		45D123EC227B2DEA00A6E16C /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D123EB227B2DEA00A6E16C /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		45D123CB227B222500A6E16C /* AutoScroll-CollectionView-TableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AutoScroll-CollectionView-TableView.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45D123CE227B222500A6E16C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		45D123D0227B222500A6E16C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		45D123D3227B222500A6E16C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		45D123D5227B222600A6E16C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		45D123D8227B222600A6E16C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45D123DA227B222600A6E16C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45D123E2227B2A5B00A6E16C /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		45D123E4227B2ACC00A6E16C /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		45D123E9227B2DDB00A6E16C /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		45D123EB227B2DEA00A6E16C /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +60,41 @@
 		45D123CD227B222500A6E16C /* AutoScroll-CollectionView-TableView */ = {
 			isa = PBXGroup;
 			children = (
-				45D123CE227B222500A6E16C /* AppDelegate.swift */,
-				45D123D0227B222500A6E16C /* ViewController.swift */,
 				45D123D2227B222500A6E16C /* Main.storyboard */,
+				45D123E8227B2C9700A6E16C /* CollectionView */,
+				45D123E7227B2C9400A6E16C /* TableView */,
+				45D123E6227B2C9000A6E16C /* Other */,
+			);
+			path = "AutoScroll-CollectionView-TableView";
+			sourceTree = "<group>";
+		};
+		45D123E6227B2C9000A6E16C /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				45D123CE227B222500A6E16C /* AppDelegate.swift */,
 				45D123D5227B222600A6E16C /* Assets.xcassets */,
 				45D123D7227B222600A6E16C /* LaunchScreen.storyboard */,
 				45D123DA227B222600A6E16C /* Info.plist */,
 			);
-			path = "AutoScroll-CollectionView-TableView";
+			path = Other;
+			sourceTree = "<group>";
+		};
+		45D123E7227B2C9400A6E16C /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				45D123E4227B2ACC00A6E16C /* TableViewController.swift */,
+				45D123EB227B2DEA00A6E16C /* TableViewCell.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		45D123E8227B2C9700A6E16C /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				45D123E2227B2A5B00A6E16C /* CollectionViewController.swift */,
+				45D123E9227B2DDB00A6E16C /* CollectionViewCell.swift */,
+			);
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +168,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45D123D1227B222500A6E16C /* ViewController.swift in Sources */,
+				45D123EC227B2DEA00A6E16C /* TableViewCell.swift in Sources */,
+				45D123E3227B2A5B00A6E16C /* CollectionViewController.swift in Sources */,
+				45D123E5227B2ACC00A6E16C /* TableViewController.swift in Sources */,
+				45D123EA227B2DDB00A6E16C /* CollectionViewCell.swift in Sources */,
 				45D123CF227B222500A6E16C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,7 +320,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LVR5UQEHBD;
-				INFOPLIST_FILE = "AutoScroll-CollectionView-TableView/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AutoScroll-CollectionView-TableView/Other/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,7 +338,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LVR5UQEHBD;
-				INFOPLIST_FILE = "AutoScroll-CollectionView-TableView/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AutoScroll-CollectionView-TableView/Other/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
