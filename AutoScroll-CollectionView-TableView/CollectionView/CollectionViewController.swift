@@ -23,6 +23,34 @@ class CollectionViewController: UIViewController {
         collectionView.delegate = self
     }
 
+    @IBAction func didPan(_ sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            // 指の移動位置を見てstart or stop
+            let transition = sender.translation(in: view)
+            let isOverLimitX = abs(Int(transition.x)) > 50
+            let isOverLimitUpper = Int(transition.y) > 30
+            let isOverLimitLower = Int(transition.y) < -30
+
+            switch (isOverLimitX,
+                    autoScrollTimer.isValid,
+                    isOverLimitUpper,
+                    isOverLimitLower) {
+            case (false, false, true, false):
+                // 上にスクロール
+                startAutoScroll(duration: 0.1)
+            case (false, false, false, true):
+                // 下にスクロール
+                startAutoScroll(duration: 0.1)
+            default: break
+            }
+            if !autoScrollTimer.isValid, abs(Int(transition.x)) < 50 {}
+        case .ended:
+            stopAutoScrollIfNeeded()
+        default: break
+        }
+    }
+
     private func startAutoScroll(duration: TimeInterval) {
         var currentOffsetY = 0
         autoScrollTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true, block: { [weak self] (_) in
@@ -36,9 +64,11 @@ class CollectionViewController: UIViewController {
         })
     }
 
-    private func stopAutoScroll() {
-        view.layer.removeAllAnimations()
-        autoScrollTimer.invalidate()
+    private func stopAutoScrollIfNeeded() {
+        if autoScrollTimer.isValid {
+            view.layer.removeAllAnimations()
+            autoScrollTimer.invalidate()
+        }
     }
 
 }
