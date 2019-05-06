@@ -25,33 +25,18 @@ class CollectionViewController: UIViewController {
         numbers = (0 ..< cellCount).map { $0 }
         collectionView.dataSource = self
         collectionView.delegate = self
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
-        collectionView.addGestureRecognizer(gesture)
     }
 
-    @objc func didPan(_ sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            collectionView.isScrollEnabled = false
-            collectionView.isUserInteractionEnabled = false
-        case .changed:
-            let transition = sender.translation(in: view)
-            let isScrollLeft = Int(transition.x) < -30
-            let isScrollRight = Int(transition.x) > 30
-            
-            switch (autoScrollTimer.isValid, isScrollLeft, isScrollRight) {
-            case (false, true, false):
-                startAutoScroll(duration: 1.0, direction: .left)
-            case (false, false, true):
-                startAutoScroll(duration: 1.0, direction: .right)
-            default: break
-            }
-        case .ended:
-            stopAutoScrollIfNeeded()
-            collectionView.isScrollEnabled = true
-            collectionView.isUserInteractionEnabled = true
-        default: break
-        }
+    @IBAction func didTapLeft(_ sender: UIButton) {
+        startAutoScroll(duration: 1.0, direction: .left)
+    }
+
+    @IBAction func didTapRight(_ sender: UIButton) {
+        startAutoScroll(duration: 1.0, direction: .right)
+    }
+
+    @IBAction func didTapStop(_ sender: UIButton) {
+        stopAutoScrollIfNeeded()
     }
 
     private func startAutoScroll(duration: TimeInterval, direction: ScrollDirectionType) {

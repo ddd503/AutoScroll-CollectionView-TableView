@@ -21,33 +21,18 @@ class TableViewController: UIViewController {
         numbers = (0 ..< cellCount).map { $0 }
         tableView.dataSource = self
         tableView.delegate = self
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
-        tableView.addGestureRecognizer(gesture)
     }
 
-    @objc func didPan(_ sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            tableView.isScrollEnabled = false
-            tableView.isUserInteractionEnabled = false
-        case .changed:
-            let transition = sender.translation(in: view)
-            let isScrollUpper = Int(transition.y) > 30
-            let isScrollLower = Int(transition.y) < -30
+    @IBAction func didTapUp(_ sender: UIButton) {
+        startAutoScroll(duration: 0.1, direction: .upper)
+    }
 
-            switch (autoScrollTimer.isValid, isScrollUpper, isScrollLower) {
-            case (false, true, false):
-                startAutoScroll(duration: 0.1, direction: .upper)
-            case (false, false, true):
-                startAutoScroll(duration: 0.1, direction: .under)
-            default: break
-            }
-        case .ended:
-            stopAutoScrollIfNeeded()
-            tableView.isScrollEnabled = true
-            tableView.isUserInteractionEnabled = true
-        default: break
-        }
+    @IBAction func didTapDown(_ sender: UIButton) {
+        startAutoScroll(duration: 0.1, direction: .under)
+    }
+
+    @IBAction func didTapStop(_ sender: UIButton) {
+        stopAutoScrollIfNeeded()
     }
 
     private func startAutoScroll(duration: TimeInterval, direction: ScrollDirectionType) {
