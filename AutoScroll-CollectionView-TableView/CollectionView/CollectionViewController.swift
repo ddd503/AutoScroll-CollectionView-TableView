@@ -31,15 +31,15 @@ class CollectionViewController: UIViewController {
 
     @objc func didPan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
+        case .began:
+            collectionView.isScrollEnabled = false
+            collectionView.isUserInteractionEnabled = false
         case .changed:
-            // 指の移動位置を見てstart or stop
             let transition = sender.translation(in: view)
             let isScrollUpper = Int(transition.y) > 30
             let isScrollLower = Int(transition.y) < -30
-
-            switch (autoScrollTimer.isValid,
-                    isScrollUpper,
-                    isScrollLower) {
+            
+            switch (autoScrollTimer.isValid, isScrollUpper, isScrollLower) {
             case (false, true, false):
                 startAutoScroll(duration: 0.1, direction: .upper)
             case (false, false, true):
@@ -48,6 +48,8 @@ class CollectionViewController: UIViewController {
             }
         case .ended:
             stopAutoScrollIfNeeded()
+            collectionView.isScrollEnabled = true
+            collectionView.isUserInteractionEnabled = true
         default: break
         }
     }
