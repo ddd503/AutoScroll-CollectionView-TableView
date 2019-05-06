@@ -14,12 +14,68 @@ class TableViewController: UIViewController {
 
     private var numbers = [Int]()
     private let cellCount = 100
+    private var autoScrollTimer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         numbers = (0 ..< cellCount).map { $0 }
         tableView.dataSource = self
         tableView.delegate = self
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
+        tableView.addGestureRecognizer(gesture)
+    }
+
+    @objc func didPan(_ sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            tableView.isScrollEnabled = false
+            tableView.isUserInteractionEnabled = false
+        case .changed:
+            let transition = sender.translation(in: view)
+            let isScrollUpper = Int(transition.y) > 30
+            let isScrollLower = Int(transition.y) < -30
+
+            switch (autoScrollTimer.isValid, isScrollUpper, isScrollLower) {
+            case (false, true, false):
+                startAutoScroll(duration: 0.1, direction: .upper)
+            case (false, false, true):
+                startAutoScroll(duration: 0.1, direction: .under)
+            default: break
+            }
+        case .ended:
+            stopAutoScrollIfNeeded()
+            tableView.isScrollEnabled = true
+            tableView.isUserInteractionEnabled = true
+        default: break
+        }
+    }
+
+    private func startAutoScroll(duration: TimeInterval, direction: ScrollDirectionType) {
+        var currentOffsetY = tableView.contentOffset.y
+        autoScrollTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true, block: { [weak self] (_) in
+            guard let self = self else { return }
+            switch direction {
+            case .upper:
+                currentOffsetY = (currentOffsetY - 10 < 0) ? 0 : currentOffsetY - 10
+                if currentOffsetY == 0 { self.stopAutoScrollIfNeeded() }
+            case .under:
+                let highLimit = self.tableView.contentSize.height - self.tableView.bounds.size.height
+                currentOffsetY = (currentOffsetY + 10 > highLimit) ? highLimit : currentOffsetY + 10
+                if currentOffsetY == highLimit { self.stopAutoScrollIfNeeded() }
+            }
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: duration * 2, animations: {
+                    self.tableView.setContentOffset(CGPoint(x: 0, y: currentOffsetY), animated: false)
+                })
+            }
+        })
+    }
+
+    private func stopAutoScrollIfNeeded() {
+        if autoScrollTimer.isValid {
+            view.layer.removeAllAnimations()
+            autoScrollTimer.invalidate()
+        }
     }
 
 }
