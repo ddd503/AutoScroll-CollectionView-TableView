@@ -13,7 +13,7 @@ class TableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     private var numbers = [Int]()
-    private let cellCount = 100
+    private let cellCount = 20
     private var autoScrollTimer = Timer()
     
     override func viewDidLoad() {
@@ -52,20 +52,24 @@ class TableViewController: UIViewController {
 
     private func startAutoScroll(duration: TimeInterval, direction: ScrollDirectionType) {
         var currentOffsetY = tableView.contentOffset.y
+        var shouldFinish = false
         autoScrollTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true, block: { [weak self] (_) in
             guard let self = self else { return }
             switch direction {
             case .upper:
                 currentOffsetY = (currentOffsetY - 10 < 0) ? 0 : currentOffsetY - 10
-                if currentOffsetY == 0 { self.stopAutoScrollIfNeeded() }
+                shouldFinish = currentOffsetY == 0
             case .under:
                 let highLimit = self.tableView.contentSize.height - self.tableView.bounds.size.height
                 currentOffsetY = (currentOffsetY + 10 > highLimit) ? highLimit : currentOffsetY + 10
-                if currentOffsetY == highLimit { self.stopAutoScrollIfNeeded() }
+                shouldFinish = currentOffsetY == highLimit
+            default: break
             }
             DispatchQueue.main.async {
                 UIView.animate(withDuration: duration * 2, animations: {
                     self.tableView.setContentOffset(CGPoint(x: 0, y: currentOffsetY), animated: false)
+                }, completion: { _ in
+                    if shouldFinish { self.stopAutoScrollIfNeeded() }
                 })
             }
         })

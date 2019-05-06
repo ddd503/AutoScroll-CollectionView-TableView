@@ -18,10 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" canCancelContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1dv-cK-TRh">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1dv-cK-TRh">
+                                <rect key="frame" x="0.0" y="344.5" width="414" height="207"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Bbu-ej-tXW">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Bbu-ej-tXW">
                                     <size key="itemSize" width="111" height="101"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -29,15 +29,15 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewCell" id="3R7-cA-ubr" customClass="CollectionViewCell" customModule="AutoScroll_CollectionView_TableView" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="111" height="101"/>
+                                        <rect key="frame" x="0.0" y="53" width="111" height="101"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="111" height="101"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jO-m4-E1Q">
-                                                    <rect key="frame" x="22.5" y="38" width="66" height="25"/>
-                                                    <fontDescription key="fontDescription" name="HiraMaruProN-W4" family="Hiragino Maru Gothic ProN" pointSize="25"/>
+                                                    <rect key="frame" x="9.5" y="33" width="92.5" height="35.5"/>
+                                                    <fontDescription key="fontDescription" name="HiraMaruProN-W4" family="Hiragino Maru Gothic ProN" pointSize="35"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -57,10 +57,10 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1dv-cK-TRh" secondAttribute="trailing" id="1GZ-gl-pgZ"/>
-                            <constraint firstItem="1dv-cK-TRh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NZR-oY-jym"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1dv-cK-TRh" secondAttribute="bottom" id="Qf1-oF-sqN"/>
-                            <constraint firstItem="1dv-cK-TRh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="kPK-CU-pON"/>
+                            <constraint firstItem="1dv-cK-TRh" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="Hg3-op-qor"/>
+                            <constraint firstItem="1dv-cK-TRh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="RCx-xq-zya"/>
+                            <constraint firstItem="1dv-cK-TRh" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="bgv-a5-B2S"/>
+                            <constraint firstItem="1dv-cK-TRh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oe5-uf-78l"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

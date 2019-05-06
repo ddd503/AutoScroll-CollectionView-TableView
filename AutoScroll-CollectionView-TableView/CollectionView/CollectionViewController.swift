@@ -9,7 +9,7 @@
 import UIKit
 
 enum ScrollDirectionType {
-    case upper, under
+    case upper, under, left, right
 }
 
 class CollectionViewController: UIViewController {
@@ -17,7 +17,7 @@ class CollectionViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     private var numbers = [Int]()
-    private let cellCount = 100
+    private let cellCount = 20
     private var autoScrollTimer = Timer()
 
     override func viewDidLoad() {
@@ -36,14 +36,14 @@ class CollectionViewController: UIViewController {
             collectionView.isUserInteractionEnabled = false
         case .changed:
             let transition = sender.translation(in: view)
-            let isScrollUpper = Int(transition.y) > 30
-            let isScrollLower = Int(transition.y) < -30
+            let isScrollLeft = Int(transition.x) < -30
+            let isScrollRight = Int(transition.x) > 30
             
-            switch (autoScrollTimer.isValid, isScrollUpper, isScrollLower) {
+            switch (autoScrollTimer.isValid, isScrollLeft, isScrollRight) {
             case (false, true, false):
-                startAutoScroll(duration: 0.1, direction: .upper)
+                startAutoScroll(duration: 1.0, direction: .left)
             case (false, false, true):
-                startAutoScroll(duration: 0.1, direction: .under)
+                startAutoScroll(duration: 1.0, direction: .right)
             default: break
             }
         case .ended:
@@ -55,22 +55,24 @@ class CollectionViewController: UIViewController {
     }
 
     private func startAutoScroll(duration: TimeInterval, direction: ScrollDirectionType) {
-        var currentOffsetY = collectionView.contentOffset.y
+        var indexPath = collectionView.indexPathsForVisibleItems.sorted { $0.item < $1.item }.first ?? IndexPath(item: 0, section: 0)
+        let firstItem = IndexPath(item: 0, section: 0)
+        let lastItem = IndexPath(item: collectionView.numberOfItems(inSection: 0) - 1, section: 0)
+        var shouldFinish = false
         autoScrollTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true, block: { [weak self] (_) in
             guard let self = self else { return }
             switch direction {
-            case .upper:
-                currentOffsetY = (currentOffsetY - 10 < 0) ? 0 : currentOffsetY - 10
-                if currentOffsetY == 0 { self.stopAutoScrollIfNeeded() }
-            case .under:
-                let highLimit = self.collectionView.contentSize.height - self.collectionView.bounds.size.height
-                currentOffsetY = (currentOffsetY + 10 > highLimit) ? highLimit : currentOffsetY + 10
-                if currentOffsetY == highLimit { self.stopAutoScrollIfNeeded() }
+            case .left:
+                indexPath = (indexPath.item + 2 >= self.collectionView.numberOfItems(inSection: 0)) ? lastItem : IndexPath(item: indexPath.item + 2, section: 0)
+                shouldFinish = indexPath.item == lastItem.item
+            case .right:
+                indexPath = (indexPath.item - 2 <= 0) ? firstItem : IndexPath(item: indexPath.item - 2, section: 0)
+                shouldFinish = indexPath.item == firstItem.item
+            default: break
             }
             DispatchQueue.main.async {
-                UIView.animate(withDuration: duration * 2, animations: {
-                    self.collectionView.setContentOffset(CGPoint(x: 0, y: currentOffsetY), animated: false)
-                })
+                self.collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+                if shouldFinish { self.stopAutoScrollIfNeeded() }
             }
         })
     }
@@ -100,7 +102,7 @@ extension CollectionViewController: UICollectionViewDataSource {
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let length = collectionView.frame.size.width / 3
+        let length = collectionView.frame.size.height
         return CGSize(width: length, height: length)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
