@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum ScrollDirectionType {
+    case upper, under
+}
+
 class CollectionViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -21,41 +25,46 @@ class CollectionViewController: UIViewController {
         numbers = (0 ..< cellCount).map { $0 }
         collectionView.dataSource = self
         collectionView.delegate = self
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
+        collectionView.addGestureRecognizer(gesture)
     }
 
-    @IBAction func didPan(_ sender: UIPanGestureRecognizer) {
+    @objc func didPan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .changed:
             // 指の移動位置を見てstart or stop
             let transition = sender.translation(in: view)
-            let isOverLimitX = abs(Int(transition.x)) > 50
-            let isOverLimitUpper = Int(transition.y) > 30
-            let isOverLimitLower = Int(transition.y) < -30
+            let isScrollUpper = Int(transition.y) > 30
+            let isScrollLower = Int(transition.y) < -30
 
-            switch (isOverLimitX,
-                    autoScrollTimer.isValid,
-                    isOverLimitUpper,
-                    isOverLimitLower) {
-            case (false, false, true, false):
-                // 上にスクロール
-                startAutoScroll(duration: 0.1)
-            case (false, false, false, true):
-                // 下にスクロール
-                startAutoScroll(duration: 0.1)
+            switch (autoScrollTimer.isValid,
+                    isScrollUpper,
+                    isScrollLower) {
+            case (false, true, false):
+                startAutoScroll(duration: 0.1, direction: .upper)
+            case (false, false, true):
+                startAutoScroll(duration: 0.1, direction: .under)
             default: break
             }
-            if !autoScrollTimer.isValid, abs(Int(transition.x)) < 50 {}
         case .ended:
             stopAutoScrollIfNeeded()
         default: break
         }
     }
 
-    private func startAutoScroll(duration: TimeInterval) {
-        var currentOffsetY = 0
+    private func startAutoScroll(duration: TimeInterval, direction: ScrollDirectionType) {
+        var currentOffsetY = collectionView.contentOffset.y
         autoScrollTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true, block: { [weak self] (_) in
             guard let self = self else { return }
-            currentOffsetY += 10
+            switch direction {
+            case .upper:
+                currentOffsetY = (currentOffsetY - 10 < 0) ? 0 : currentOffsetY - 10
+                if currentOffsetY == 0 { self.stopAutoScrollIfNeeded() }
+            case .under:
+                let highLimit = self.collectionView.contentSize.height - self.collectionView.bounds.size.height
+                currentOffsetY = (currentOffsetY + 10 > highLimit) ? highLimit : currentOffsetY + 10
+                if currentOffsetY == highLimit { self.stopAutoScrollIfNeeded() }
+            }
             DispatchQueue.main.async {
                 UIView.animate(withDuration: duration * 2, animations: {
                     self.collectionView.setContentOffset(CGPoint(x: 0, y: currentOffsetY), animated: false)

@@ -63,9 +63,6 @@
                             <constraint firstItem="1dv-cK-TRh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="kPK-CU-pON"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="8QS-C3-kLN" appends="YES" id="HEM-uN-CXs"/>
-                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="CollectionView" image="collectionViewIcon" id="Rcm-Ec-zhI"/>
                     <connections>
@@ -73,11 +70,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="8QS-C3-kLN">
-                    <connections>
-                        <action selector="didPan:" destination="BYZ-38-t0r" id="pN6-9K-ME3"/>
-                    </connections>
-                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="-161.38392857142856"/>
         </scene>
